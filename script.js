@@ -1,33 +1,37 @@
+const styledLog = 'color: green; font-size: x-medium'
+
 chrome.devtools.panels.create(
   "Storage Debugger",
   "MyPanelIcon.png",
   "Panel.html",
   function (panel) {
-    // code invoked on panel creation
-    // chrome.storage.onChanged.addListener((changes, areaName) => {alert(areaName)});
-    window.myVarzz = null;
     chrome.devtools.inspectedWindow.eval(
-      `chrome.storage.onChanged.addListener((changes, areaName) => {
-        console.log('changes', changes);
-        console.log('areaName', areaName);
+      `chrome.storage.sync.get(null, function (result) {
+         console.log('%c+ Current storage %o', 'color: green; font-weight: bold; font-size: x-medium', result);
       });`,
       function (result, isException) {
-        console.log(
-          "🚀 ~ file: script.js ~ line 16 ~ isExceptionz",
-          isException
-        );
+        console.error(isException)
       }
     );
     chrome.devtools.inspectedWindow.eval(
-      `chrome.storage.sync.get(null, function (result) {
-        window.myVarzz = result
+      `chrome.storage.onChanged.addListener((changes, areaName) => {
+        const table = Object.keys(changes).map(key => {
+          return {
+            key,
+            oldValue: changes[key].oldValue,
+            newValue: changes[key].newValue,
+          }
+        })
+        console.group();
+          console.log('%c+ Changes on areaName: %s', 'color: green; font-weight: bold; font-size: x-medium', areaName);
+          console.table(table)
+          console.table(this)
+        console.groupEnd();
       });`,
       function (result, isException) {
-        console.log(
-          "🚀 ~ file: script.js ~ line 16 ~ isException",
-          isException
-        );
+        console.error(isException)
       }
     );
   }
 );
+
