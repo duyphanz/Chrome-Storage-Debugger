@@ -25,7 +25,6 @@ chrome.devtools.panels.create(
         console.group();
           console.log('%c+ Changes on areaName: %s', 'color: green; font-weight: bold; font-size: x-medium', areaName);
           console.table(table)
-          console.table(this)
         console.groupEnd();
       });`,
       function (result, isException) {
