@@ -3,7 +3,6 @@
   "name": "Storage debugger",
   "version": "1.0",
   "description": "Storage debugger",
-  "permissions": ["storage"],
   "minimum_chrome_version": "10.0",
   "devtools_page": "Devtools.html",
   "browser_action": {
